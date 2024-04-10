@@ -1,0 +1,90 @@
+# Joseph Hawkins
+# 10/5/2023
+# Issues:N
+# Executable:Y
+
+
+import random
+import string
+import secrets
+from tabulate import tabulate
+
+
+# Function to create 12 digit password with 3 upper, 3 lower, 3 numbers and 3 symbols
+def generate_password(password_length=12):
+    characters = string.ascii_letters + string.digits + string.punctuation + '-_'
+    while True:
+        password = ''.join(secrets.choice(characters) for i in range(12))
+        if (sum(c.islower() for c in password) == 3
+                and sum(c.isupper() for c in password) == 3
+                and sum(c.isdigit() for c in password) == 3
+                and sum(c in string.punctuation for c in password) == 3):
+            return password
+
+
+# function to store websites in a dictionary
+def frequent_websites():
+    websites = {
+        'Wsc': 'wsc.edu',
+        'Zybooks': 'zybooks.com',
+        'VHL Central': 'vhlcentral.com',
+        'Front Range Community College': 'frcc.edu',
+        'Cengage': 'cengage.com',
+        'Motor Age': 'motoragetraining.com',
+        'First Bank': 'efirstbank.com',
+        'Allstate': 'allstate.com',
+        'Indeed': 'indeed.com',
+        'Linkedin': 'linkedin.com',
+        'Amazon': 'amazon.com',
+        'Netflix': 'netflix.com',
+        'Youtube': 'youtube.com',
+        'Salesforce': 'salesforce.com',
+        'Northeast': 'northeast.edu'
+    }
+    return websites
+
+
+# function to create random login from a list of info specific to me
+def generate_login():
+    info = ['joe', 'son', 'camp', 'travel', 'cars', 'race', 'bike']
+    random_items = random.sample(info, 3)
+    random_login = ''.join(random_items)
+    return random_login
+#random_login = generate_login()
+# print(random_login)
+
+
+# main. Ask user to start program.
+# call functions and store info in dictionary
+# display info in table
+# N - ends process
+if __name__ == "__main__":
+    dictionary = []
+    websites = frequent_websites()
+
+    for website_name in websites:
+        website = websites[website_name]
+        random_login = generate_login()
+        password = generate_password()
+
+        dictionary.append([website, random_login, password])
+
+    while True:
+        try:
+            command = input('Do you want to start the login/password program? (Y/N)')
+            if command == 'N' or command == 'n':
+                break
+            elif command == 'Y' or command == 'y':
+
+                    #print output for testing
+                    #print(f"Website: {website}")
+                    #rint(f"Login: {random_login}")
+                    #print(f"Password: {password}")
+
+                    headers = ["Website", "login", "Password"]
+                    print(tabulate(dictionary, headers=headers, tablefmt="grid"))
+
+            else:
+                raise ValueError('Invalid response. Enter (Y/N)')
+        except Exception as e:
+            print(e)
